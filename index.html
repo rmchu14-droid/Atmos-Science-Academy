@@ -1,8 +1,521 @@
-Atmos-Science-Academy/
-│
-├── index.html
-├── style.css
-├── script.js
-├── assets/
-│   ├── images/
-│   └── icons/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atmos Science Academy</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0D1B2A;
+      --navy-card: #1A2D40;
+      --navy-border: rgba(255,255,255,0.15);
+      --teal-light: #5DCAA5;
+      --teal-dim: #0F6E56;
+      --gold: #EF9F27;
+      --gold-light: #FAC775;
+      --white: #FFFFFF;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      border-bottom: 0.5px solid var(--navy-border);
+      position: sticky;
+      top: 0;
+      background: var(--navy);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--teal-light); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 15px;
+    }
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--teal-light); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 10px 22px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* HERO */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(29,158,117,0.15);
+      color: var(--teal-light);
+      font-size: 13px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      border: 0.5px solid rgba(29,158,117,0.3);
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 500;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      color: var(--white);
+    }
+    .hero h1 em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--white);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 0.5px solid rgba(255,255,255,0.4);
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { border-color: var(--white); }
+
+    /* QCAA BANNER */
+    .qcaa-banner {
+      margin: 2rem 2rem 0;
+      background: var(--navy-card);
+      border: 0.5px solid rgba(93,202,165,0.25);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .qcaa-badge {
+      background: rgba(29,158,117,0.2);
+      border: 0.5px solid rgba(93,202,165,0.3);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1.25rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .qcaa-badge .qcaa-title { font-size: 13px; color: var(--teal-light); font-weight: 500; }
+    .qcaa-badge .qcaa-sub { font-size: 11px; color: var(--white); margin-top: 2px; }
+    .qcaa-text h3 { font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+    .qcaa-text p { font-size: 14px; color: var(--white); line-height: 1.6; }
+
+    /* SECTIONS */
+    .section { padding: 3rem 2rem; }
+    .section-label {
+      font-size: 13px;
+      color: var(--teal-light);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 500; margin-bottom: 0.75rem; color: var(--white); }
+    .section p.sub { color: var(--white); font-size: 16px; margin-bottom: 2rem; }
+
+    /* TIER CARDS */
+    .tier {
+      background: var(--navy-card);
+      border: 0.5px solid var(--navy-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 16px;
+    }
+    .tier-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .tier-tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .tier-tag.junior {
+      background: rgba(29,158,117,0.15);
+      color: var(--teal-light);
+      border: 0.5px solid rgba(29,158,117,0.3);
+    }
+    .tier-tag.senior {
+      background: rgba(239,159,39,0.15);
+      color: var(--gold-light);
+      border: 0.5px solid rgba(239,159,39,0.3);
+    }
+    .tier h3 { font-size: 22px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .tier h3 em { color: var(--teal-light); font-style: normal; }
+    .tier h3.gold em { color: var(--gold); }
+    .tier-sub { font-size: 15px; color: var(--white); margin-top: 4px; }
+    .tier-desc { font-size: 15px; color: var(--white); line-height: 1.6; margin-bottom: 1.5rem; }
+    .tier-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .tier-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--navy-border);
+    }
+    .tier-item i { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .tier-item.t i { color: var(--teal-light); }
+    .tier-item.g i { color: var(--gold-light); }
+    .tier-item span { font-size: 13px; color: var(--white); line-height: 1.5; }
+
+    /* SERVICES */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .svc {
+      background: var(--navy-card);
+      border: 0.5px solid var(--navy-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .svc h3 { font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+    .svc p { font-size: 14px; color: var(--white); line-height: 1.6; }
+    .svc-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+    .svc-tag.fast {
+      background: rgba(239,159,39,0.15);
+      color: var(--gold-light);
+      border: 0.5px solid rgba(239,159,39,0.3);
+    }
+    .svc-tag.flex {
+      background: rgba(29,158,117,0.15);
+      color: var(--teal-light);
+      border: 0.5px solid rgba(29,158,117,0.3);
+    }
+
+    /* URGENT BANNER */
+    .urgent-banner {
+      margin: 0 2rem;
+      background: rgba(239,159,39,0.08);
+      border: 0.5px solid rgba(239,159,39,0.3);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .urgent-icon { font-size: 36px; color: var(--gold); flex-shrink: 0; }
+    .urgent-text h3 { font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+    .urgent-text p { font-size: 14px; color: var(--white); line-height: 1.6; }
+    .urgent-btn {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .urgent-btn:hover { background: var(--gold-light); }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 1.5rem;
+    }
+    .feature {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 1rem;
+      background: var(--navy-card);
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--navy-border);
+    }
+    .feature-icon { font-size: 22px; color: var(--teal-light); flex-shrink: 0; margin-top: 2px; }
+    .feature h3 { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .feature p { font-size: 13px; color: var(--white); line-height: 1.5; }
+
+    /* CTA */
+    .cta-section {
+      margin: 2rem;
+      background: var(--teal-dim);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2rem;
+      text-align: center;
+      border: 0.5px solid rgba(93,202,165,0.2);
+    }
+    .cta-section h2 { font-size: clamp(22px, 4vw, 30px); font-weight: 500; margin-bottom: 0.75rem; color: var(--white); }
+    .cta-section p { color: var(--white); margin-bottom: 2rem; font-size: 16px; }
+    .cta-section a {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 14px 32px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .cta-section a:hover { background: var(--gold-light); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 14px;
+      color: var(--white);
+      border-top: 0.5px solid var(--navy-border);
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 3rem 1.5rem 2.5rem; }
+      .qcaa-banner, .urgent-banner, .cta-section { margin: 1rem; }
+      .section { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="#" class="nav-logo">
+      <i class="ti ti-atom" style="font-size:22px;color:#5DCAA5"></i>
+      Atmos <span>Science</span> Academy
+    </a>
+    <div class="nav-links">
+      <a href="#year-levels">Year levels</a>
+      <a href="#services">Services</a>
+      <a href="#why-us">About</a>
+    </div>
+    <a href="mailto:hello@atmosscience.com.au" class="nav-cta">Book a session</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge"><i class="ti ti-map-pin"></i> Queensland · QCAA aligned</div>
+    <h1>Write better assessments with <em>structured guidance</em> built for Qld students</h1>
+    <p>From Year 7 to Year 12 — learn how to plan, draft, and polish science assessments aligned to the QCAA curriculum.</p>
+    <div class="hero-btns">
+      <a href="mailto:hello@atmosscience.com.au" class="btn-primary">Book a free session</a>
+      <a href="#year-levels" class="btn-secondary">See year levels</a>
+    </div>
+  </section>
+
+  <div class="qcaa-banner">
+    <div class="qcaa-badge">
+      <div class="qcaa-title">QCAA focused</div>
+      <div class="qcaa-sub">Queensland curriculum</div>
+    </div>
+    <div class="qcaa-text">
+      <h3>Built around the Queensland system</h3>
+      <p>All guides and support are tailored to QCAA syllabus documents, assessment criteria, and marking standards — so you always know exactly what your teacher is looking for.</p>
+    </div>
+  </div>
+
+  <section class="section" id="year-levels">
+    <div class="section-label">What we teach</div>
+    <h2>Support for every year level</h2>
+    <p class="sub">Structured guides and personalised support — no matter where you're at.</p>
+
+    <div class="tier">
+      <div class="tier-header">
+        <div>
+          <h3><em>Where Young Minds Explore</em></h3>
+          <div class="tier-sub">Junior Science · Years 7–10</div>
+        </div>
+        <span class="tier-tag junior">Junior</span>
+      </div>
+      <p class="tier-desc">Science starts to make sense here. We help junior students build the skills to understand what assessments actually ask for — and how to answer with confidence.</p>
+      <div class="tier-items">
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Understanding task sheets and criteria</span></div>
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Structuring written science responses</span></div>
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Science report writing fundamentals</span></div>
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Drafting support and feedback</span></div>
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Using evidence to support claims</span></div>
+        <div class="tier-item t"><i class="ti ti-check"></i><span>Step-by-step structured guides</span></div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-header">
+        <div>
+          <h3 class="gold"><em>When Science Hits Different</em></h3>
+          <div class="tier-sub">Senior Science · Years 11–12</div>
+        </div>
+        <span class="tier-tag senior">Senior</span>
+      </div>
+      <p class="tier-desc">The stakes are real and the criteria are complex. We break down exactly what QCAA expects and guide you through every internal and external assessment.</p>
+      <div class="tier-items">
+        <div class="tier-item g"><i class="ti ti-check"></i><span>IA1, IA2, IA3 assessment guidance</span></div>
+        <div class="tier-item g"><i class="ti ti-check"></i><span>Data analysis and scientific reports</span></div>
+        <div class="tier-item g"><i class="ti ti-check"></i><span>Research investigations support</span></div>
+        <div class="tier-item g"><i class="ti ti-check"></i><span>Criteria sheet translation</span></div>
+        <div class="tier-item g"><i class="ti ti-check"></i><span>External exam technique</span></div>
+        <div class="tier-item g"><i class="ti ti-check"></i><span>Draft review and improvement</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="section-label">Services</div>
+    <h2>How we support your writing</h2>
+    <p class="sub">Structured tools and real guidance — from first draft to final submission.</p>
+    <div class="services">
+      <div class="svc">
+        <i class="ti ti-book" style="font-size:28px;color:#5DCAA5;display:block;margin-bottom:12px"></i>
+        <h3>Assessment guides</h3>
+        <p>Step-by-step structured guides for each assessment type, broken down by year level and subject.</p>
+        <span class="svc-tag flex">All year levels</span>
+      </div>
+      <div class="svc">
+        <i class="ti ti-message-check" style="font-size:28px;color:#EF9F27;display:block;margin-bottom:12px"></i>
+        <h3>Assessment feedback</h3>
+        <p>Submit your draft and get detailed, criteria-aligned feedback with clear direction on how to improve — fast.</p>
+        <span class="svc-tag fast">Fast turnaround</span>
+      </div>
+      <div class="svc">
+        <i class="ti ti-pencil" style="font-size:28px;color:#5DCAA5;display:block;margin-bottom:12px"></i>
+        <h3>Drafting support</h3>
+        <p>Work through your draft with a tutor — get targeted feedback at every stage before you submit.</p>
+        <span class="svc-tag flex">Junior & senior</span>
+      </div>
+      <div class="svc">
+        <i class="ti ti-list-check" style="font-size:28px;color:#EF9F27;display:block;margin-bottom:12px"></i>
+        <h3>Criteria breakdown</h3>
+        <p>We translate QCAA criteria sheets into plain language so you know exactly what to aim for.</p>
+        <span class="svc-tag flex">QCAA aligned</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="urgent-banner">
+    <i class="ti ti-clock-bolt urgent-icon"></i>
+    <div class="urgent-text">
+      <h3>Assessment due soon? We've got you.</h3>
+      <p>Flexible scheduling means you can book around your deadlines — and when time is really short, send a direct request. We'll do our best to fit you in and get feedback back to you fast.</p>
+    </div>
+    <a href="mailto:hello@atmosscience.com.au?subject=Direct request" class="urgent-btn">Send a direct request</a>
+  </div>
+
+  <section class="section" id="why-us">
+    <div class="section-label">Why us</div>
+    <h2>Why students choose Atmos</h2>
+    <div class="features">
+      <div class="feature">
+        <i class="ti ti-map-pin feature-icon"></i>
+        <div><h3>Queensland specialists</h3><p>We know the QCAA system inside out — not generic tutoring, but Qld-specific support.</p></div>
+      </div>
+      <div class="feature">
+        <i class="ti ti-calendar feature-icon"></i>
+        <div><h3>Flexible scheduling</h3><p>Book sessions that fit around school — online, after hours, and on weekends.</p></div>
+      </div>
+      <div class="feature">
+        <i class="ti ti-bolt feature-icon"></i>
+        <div><h3>Fast turnaround</h3><p>Need feedback quickly? We offer fast-turnaround assessment reviews so you're never left waiting.</p></div>
+      </div>
+      <div class="feature">
+        <i class="ti ti-target feature-icon"></i>
+        <div><h3>Assessment focused</h3><p>Every session is built around your actual upcoming task — no generic content.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <h2>Ready to tackle your next assessment?</h2>
+    <p>Book a free session and get a head start on your next science task.</p>
+    <a href="mailto:hello@atmosscience.com.au">Book your free session today</a>
+  </div>
+
+  <footer>
+    © 2026 Atmos Science Academy · Queensland · All rights reserved
+  </footer>
+
+</body>
+</html>
